@@ -2,8 +2,8 @@ import * as os from 'os';
 import * as fs from 'fs';
 import * as path from 'path';
 import { testResults_append, testResults_consoleLog, testResults_new } from 'sr_test_framework';
-import { jsdoc_parseNext } from '.';
-import { jsdoc_isolateNext } from './parse_jsdoc';
+import { jsdoc_srcmbrDoc } from './ibmi_jsdoc';
+import { jsdoc_parseNext, jsdoc_isolateNext } from './parse_jsdoc';
 
 // run main function that is declared as async. 
 async_main();
@@ -19,9 +19,14 @@ async function async_main()
     results.push(...res);
   }
 
+  // srcmbrDoc_test
+  {
+    const res = srcmbrDoc_test( ) ;
+    results.push(...res) ;
+  }
+
   testResults_consoleLog(results);
 }
-
 
 // -------------------------- jsdoc_parse_test ----------------
 /** parse the first set of jsdoc comment lines in the input array of text lines.
@@ -84,7 +89,7 @@ xxxxxxx`
     const text_arr = textLine.split('\n');
     const method = 'jsdoc_parse';
     const initialText = ``;
-    const expected = { startIx: 1, endIx: 5, numTags: 2, initialText };
+    const expected = { startIx: 1, endIx: 6, numTags: 4, initialText:'' };
     const rv = jsdoc_parseNext(text_arr);
     const actual = {
       startIx: rv.startIx, endIx: rv.endIx,
@@ -97,32 +102,27 @@ xxxxxxx`
   return { results };
 }
 
+// ---------------------------------- srcmbrDoc_test ----------------------------------
+function srcmbrDoc_test()
+{
+  const results = testResults_new();
 
+  // jsdoc_parseNext .
+  {
+    const jsdoc_text = `/** 
+    * @srcmbr_fileName xxxx.sqli 
+    * @mbrName UTL7010 
+    * @srcType sqlprc 
+    * @textDesc select from webuser 
+    */`;
+    const lines = jsdoc_text.split(/\n|\r/) ;
+    const method = 'jsdoc_srcmbrDoc';
+    const actual = jsdoc_srcmbrDoc( lines ) ;
+    const expected = { mbrName:'UTL7010', srcType:'sqlprc', textDesc:'select from webuser',
+                        srcmbr_fileName:'xxxx.sqli' } ;
+    const desc = 'get srcmbr jsdoc mbrd tags.';
+    testResults_append(results, { method, expected, actual, desc });
+  }
 
-
-// // ---------------------------------- jsdoc_parse_test ----------------------------------
-// async function jsdoc_parse_test()
-// {
-//   const results = testResults_new();
-
-//   // jsdoc_parseNext .
-//   {
-//     const jsdoc_text = `/** 
-//     * @srcmbr_fileName xxxx.sqli 
-//     * @mbrName UTL7010 
-//     * @srcType sqlprc 
-//     * @textDesc select from webuser 
-//     */`;
-//     const lines = jsdoc_text.split(/\n|\r/) ;
-//     const method = 'jsdoc_parseNext';
-//     const parts = jsdoc_parseNext( lines ) ;
-
-//     const expected = { isRepo: true, isBehind: false, isAhead: false, isModified: true };
-//     const actual = expected ;
-//     const desc = 'get git status';
-//     testResults_append(results, { method, expected, actual, desc });
-//   }
-
-
-//   return results;
-// }
+  return results;
+}

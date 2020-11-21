@@ -1,6 +1,6 @@
 {
   "name": "sr_parse_ts",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "parsing functions",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -28,6 +28,6 @@
     "typescript": "^4.1.2"
   },
   "dependencies": {
-    "sr_core_ts": "^1.46.44"
+    "sr_core_ts": "^1.46.45"
   }
 }
