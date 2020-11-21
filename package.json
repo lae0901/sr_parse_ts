@@ -1,14 +1,12 @@
 {
   "name": "sr_parse_ts",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "parsing functions",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "node ./lib/tester.js",
-    "build": "tsc",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "lint": "tslint -p tsconfig.json"
+    "build": "tsc"
   },
   "files": [
     "/lib"
