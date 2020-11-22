@@ -14,24 +14,30 @@ export interface iSrcmbrDoc {
  * Parse the jsdoc comment lines and extract the srcmbr mbrd related @tags.
  * @param lines text lines to search and extract jsdoc documentation lines from.
  */
-export function jsdoc_srcmbrDoc( lines: string[]) : iSrcmbrDoc
+export function jsdoc_srcmbrDoc( lines: string[]) : iSrcmbrDoc | undefined
 {
+  let srcmbrDoc: iSrcmbrDoc | undefined ;
   let mbrName = '' ;
   let textDesc = '' ;
   let srcType = '' ;
   let srcmbr_fileName = '' ;
   const { initialText, tag_arr } = jsdoc_parseNext(lines);
-  for( const tag of tag_arr )
+
+  if ( tag_arr.length > 0 )
   {
-    if ( tag.tagName == '@mbrName')
-      mbrName = tag.tagText ;
-    if (tag.tagName == '@textDesc')
-      textDesc = tag.tagText;
-    if (tag.tagName == '@srcType')
-      srcType = tag.tagText;
-    if (tag.tagName == '@srcmbr_fileName')
-      srcmbr_fileName = tag.tagText;
+    for( const tag of tag_arr )
+    {
+      if ( tag.tagName == '@mbrName')
+        mbrName = tag.tagText ;
+      if (tag.tagName == '@textDesc')
+        textDesc = tag.tagText;
+      if (tag.tagName == '@srcType')
+        srcType = tag.tagText;
+      if (tag.tagName == '@srcmbr_fileName')
+        srcmbr_fileName = tag.tagText;
+    }
+    srcmbrDoc = { mbrName, textDesc, srcType, srcmbr_fileName };
   }
 
-  return { mbrName, textDesc, srcType, srcmbr_fileName } ;
+  return srcmbrDoc ;
 }
