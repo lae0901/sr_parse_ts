@@ -1,12 +1,20 @@
 import { jsdoc_parseNext } from "./parse_jsdoc";
 
+// ---------------------------------- iSrcmbrDoc ----------------------------------
+export interface iSrcmbrDoc {
+  mbrName:string;
+  textDesc:string;
+  srcType:string;
+  srcmbr_fileName:string;
+}
+
 // -------------------------------- jsdoc_srcmbrDoc --------------------------------
 /**
  * scan the input text lines, looking for the first jsDoc formatted comment lines.
  * Parse the jsdoc comment lines and extract the srcmbr mbrd related @tags.
  * @param lines text lines to search and extract jsdoc documentation lines from.
  */
-export function jsdoc_srcmbrDoc( lines: string[])
+export function jsdoc_srcmbrDoc( lines: string[]) : iSrcmbrDoc
 {
   let mbrName = '' ;
   let textDesc = '' ;

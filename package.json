@@ -1,6 +1,6 @@
 {
   "name": "sr_parse_ts",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "parsing functions",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
