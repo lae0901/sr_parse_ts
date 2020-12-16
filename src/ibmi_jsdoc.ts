@@ -28,16 +28,24 @@ export function jsdoc_srcmbrDoc( lines: string[]) : iSrcmbrDoc | undefined
     for( const tag of tag_arr )
     {
       if ( tag.tagName == '@mbrName')
-        mbrName = tag.tagText ;
+        mbrName = trimRight_clle_lineContinuation(tag.tagText) ;
       if (tag.tagName == '@textDesc')
-        textDesc = tag.tagText;
+        textDesc = trimRight_clle_lineContinuation(tag.tagText);
       if (tag.tagName == '@srcType')
-        srcType = tag.tagText;
+        srcType = trimRight_clle_lineContinuation(tag.tagText);
       if (tag.tagName == '@srcmbr_fileName')
-        srcmbr_fileName = tag.tagText;
+        srcmbr_fileName = trimRight_clle_lineContinuation(tag.tagText);
     }
     srcmbrDoc = { mbrName, textDesc, srcType, srcmbr_fileName };
   }
 
   return srcmbrDoc ;
+}
+
+// ------------------------ trimRight_clle_lineContinuation ------------------------
+function trimRight_clle_lineContinuation( str: string )
+{
+  const regex = /\s+\+\s*$/;
+  const result = str.replace(regex, '') ;
+  return result ;
 }

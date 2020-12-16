@@ -110,9 +110,9 @@ function srcmbrDoc_test()
   // jsdoc_parseNext .
   {
     const jsdoc_text = `/** 
-    * @srcmbr_fileName xxxx.sqli 
-    * @mbrName UTL7010 
-    * @srcType sqlprc 
+    * @srcmbr_fileName xxxx.sqli   
+    * @mbrName UTL7010   
+    * @srcType sqlprc   
     * @textDesc select from webuser 
     */`;
     const lines = jsdoc_text.split(/\n|\r/) ;
@@ -122,6 +122,26 @@ function srcmbrDoc_test()
                         srcmbr_fileName:'xxxx.sqli' } ;
     const desc = 'get srcmbr jsdoc mbrd tags.';
     testResults_append(results, { method, expected, actual, desc });
+  }
+
+  // jsdoc in clle program.
+  {
+    const jsdoc_text = `/**        +
+    * @srcmbr_fileName xxxx.sqli   +  
+    * @mbrName UTL7010    +
+    * @srcType sqlprc     +
+    * @textDesc select from webuser   + 
+    */`;
+    const lines = jsdoc_text.split(/\n|\r/);
+    const method = 'jsdoc_srcmbrDoc';
+    const aspect = 'cl pgm' ;
+    const actual = jsdoc_srcmbrDoc(lines);
+    const expected = {
+      mbrName: 'UTL7010', srcType: 'sqlprc', textDesc: 'select from webuser',
+      srcmbr_fileName: 'xxxx.sqli'
+    };
+    const desc = 'get srcmbr jsdoc mbrd tags.';
+    testResults_append(results, { method, aspect, expected, actual, desc });
   }
 
   return results;
