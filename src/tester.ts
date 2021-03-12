@@ -5,6 +5,7 @@ import { testResults_append, testResults_consoleLog, testResults_new } from 'sr_
 import { jsdoc_srcmbrDoc } from './ibmi_jsdoc';
 import { jsdoc_parseNext, jsdoc_isolateNext } from './parse_jsdoc';
 import { elementContentArr_findElementDeep, html_parse } from './parse_html';
+import { file_readAllText } from 'sr_core_ts';
 
 // run main function that is declared as async. 
 async_main();
@@ -28,7 +29,7 @@ async function async_main()
 
   // htmlParse_test
   {
-    const res = htmlParse_test();
+    const res = await htmlParse_test();
     results.push(...res);
   }
 
@@ -155,10 +156,9 @@ function srcmbrDoc_test()
 }
 
 // -------------------------------- htmlParse_test --------------------------------
-function htmlParse_test( )
+async function htmlParse_test( )
 {
   const results = testResults_new();
-
   const text = `
   <head>
   <meta charset="UTF-8">

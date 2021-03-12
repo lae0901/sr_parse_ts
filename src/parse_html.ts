@@ -173,11 +173,22 @@ function htmlElemContent_parse( text:string, contentBx:number )
     // no match. the content of the html element runs to end of text.
     if ( !match )
     {
-      const length = text.length - bx ;
-      const itemText = text.substr(bx) ;
-      const item: iElementContentItem = { contentType: 'text', index:bx, length, text: itemText };
-      contentArr.push(item);
-      bx += length;
+      // any non whitespace text. write as text content item.
+      {
+        const regex = /\S/g;
+        regex.lastIndex = bx ;
+        const match = regex.exec(text) ;
+        if ( match )
+        {
+          bx = match.index ;
+          const length = text.length - bx;
+          const itemText = text.substr(bx);
+          const item: iElementContentItem = { contentType: 'text', index: bx, length, text: itemText };
+          contentArr.push(item);
+        }
+      }
+      bx = text.length ;
+      index_bx = bx ;
     }
 
     else 
@@ -228,7 +239,7 @@ function htmlElemContent_parse( text:string, contentBx:number )
     }
 
     // text runs up to the found match. store as text content.
-    else
+    else if ( index_bx > bx)
     {
       const length = index_bx - bx;
       const itemText = text.substr(bx, length);
