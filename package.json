@@ -1,6 +1,6 @@
 {
   "name": "sr_parse_ts",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "parsing functions",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -23,11 +23,11 @@
   },
   "homepage": "https://github.com/lae0901/sr_parse_ts#readme",
   "devDependencies": {
-    "@types/node": "^14.14.9",
-    "sr_test_framework": "^1.0.17",
-    "typescript": "^4.1.2"
+    "@types/node": "^14.14.34",
+    "sr_test_framework": "^1.0.18",
+    "typescript": "^4.2.3"
   },
   "dependencies": {
-    "sr_core_ts": "^1.46.45"
+    "sr_core_ts": "^1.46.54"
   }
 }

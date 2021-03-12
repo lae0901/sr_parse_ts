@@ -4,6 +4,7 @@ import * as path from 'path';
 import { testResults_append, testResults_consoleLog, testResults_new } from 'sr_test_framework';
 import { jsdoc_srcmbrDoc } from './ibmi_jsdoc';
 import { jsdoc_parseNext, jsdoc_isolateNext } from './parse_jsdoc';
+import { elementContentArr_findElementDeep, html_parse } from './parse_html';
 
 // run main function that is declared as async. 
 async_main();
@@ -23,6 +24,12 @@ async function async_main()
   {
     const res = srcmbrDoc_test( ) ;
     results.push(...res) ;
+  }
+
+  // htmlParse_test
+  {
+    const res = htmlParse_test();
+    results.push(...res);
   }
 
   testResults_consoleLog(results);
@@ -142,6 +149,40 @@ function srcmbrDoc_test()
     };
     const desc = 'get srcmbr jsdoc mbrd tags.';
     testResults_append(results, { method, aspect, expected, actual, desc });
+  }
+
+  return results;
+}
+
+// -------------------------------- htmlParse_test --------------------------------
+function htmlParse_test( )
+{
+  const results = testResults_new();
+
+  const text = `
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  </head>`;
+  const { index, length, contentArr, errmsg } = html_parse(text);
+
+  {
+    const method = 'html_parse';
+    const actual = contentArr ? contentArr.length : 0;
+    const aspect = 'contentArr length' ;
+    const expected =  1 ;
+    testResults_append(results, { method, aspect, expected, actual });
+  }
+
+  if ( contentArr )
+  {
+    const foundArr = elementContentArr_findElementDeep( contentArr, 'meta');
+    const method = 'elementContentArr_findElementDeep';
+    const actual = foundArr ? foundArr.length : 0;
+    const expected = 3;
+    testResults_append(results, { method, expected, actual });
   }
 
   return results;
